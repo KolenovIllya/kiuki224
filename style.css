@@ -1,0 +1,40 @@
+
+table {
+    margin: 0 auto; /* Центруем таблицу по горизонтали */
+    border-collapse: collapse;
+    border-spacing: 0; /* убираем промежутки */
+    width: 40%; /* для удобства можно сделать таблицу на всю ширину */
+}
+
+th, td {
+    border-top: 1px solid rgb(224, 27, 27); /* верхняя граница */
+    border-bottom: 1px solid rgb(224, 27, 27); /* нижняя граница */
+}
+
+tr:nth-last-child(2n+1){
+    background: #faf5ae;
+}
+
+tr:nth-child(2){
+    background: #e6e19f;
+}
+
+th:first-child, td:first-child {
+    border-left: 1px solid rgb(224, 27, 27); /* левая граница для первой колонки */
+}
+
+th:last-child, td:last-child {
+    border-right: 1px solid rgb(224, 27, 27); /* правая граница для последней колонки */
+}
+
+.container tr {
+
+    background-color: #cf1c1c;
+    color: white; /* добавлено для контраста текста на тёмном фоне */
+    font-size: 20px;
+    
+}
+
+td:not(:first-child) {
+    text-align: center;
+}
