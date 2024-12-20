@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lb3</title>
+  <link rel="stylesheet" href="style.css">
+
+  
+  <style>
+
+  .container {
+    position: relative;
+    display: inline-block;
+  }
+
+  </style>
+
+  <script>
+  
+  function getaNumber(value) {
+      var valuee = document.getElementById('calculat');
+      valuee.value += value;
+    }
+
+    function getaSimbol(value) {
+      var valuee = document.getElementById('calculat');
+      valuee.value += value;
+    }
+
+
+    function clickButton() {
+      var valuee = document.getElementById('calculat');
+        valuee.value = eval(valuee.value);
+    }
+
+
+  </script>
+
+</head>
+<body>
+
+<div type="container">
+
+<input type="button" onclick="clickButton()" value="=" style="top: 620px; position: absolute;">
+<input type="text" name="bord" id="calculat" value="">
+
+<table>
+  <thead>
+    <tr>
+      <td><input type="button" onclick="getaSimbol('+')" value="+"></td>
+      <td><input type="button" onclick="getaSimbol('-')" value="-"></td>
+      <td><input type="button" onclick="getaSimbol('*')" value="*"></td>
+      <td><input type="button" onclick="getaSimbol('/')" value="/"></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="button" onclick="getaNumber('1')" value="1"></td>
+      <td><input type="button" onclick="getaNumber('2')" value="2"></td>
+      <td><input type="button" onclick="getaNumber('3')" value="3"></td>
+      <td><input type="button" onclick="getaNumber('4')" value="4"></td>
+    </tr>  
+    <tr>
+      <td><input type="button" onclick="getaNumber('5')" value="5"></td>
+      <td><input type="button" onclick="getaNumber('6')" value="6"></td>
+      <td><input type="button" onclick="getaNumber('7')" value="7"></td>
+      <td><input type="button" onclick="getaNumber('8')" value="8"></td>
+    </tr>
+    <tr>
+      <td><input type="button" onclick="getaNumber('9')" value="9"></td>
+      <td><input type="button" onclick="getaNumber('0')" value="0"></td>
+    </tr>
+</tbody>
+</table>
+</div>
+
+
+</body>
+</html>
