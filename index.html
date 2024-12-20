@@ -1,56 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bobr</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lb3</title>
+  <link rel="stylesheet" href="style.css">
 
-    <style>
+  
+  <style>
 
-    @media (max-width: 1200px){
-        img {
-            max-width: 600px;
-            height: auto;
-        }
+  .container {
+    position: relative;
+    display: inline-block;
+  }
+
+  </style>
+
+  <script>
+  
+  function getaNumber(value) {
+      var valuee = document.getElementById('calculat');
+      valuee.value += value;
     }
 
-    @media (max-width: 800px) {
-        img {
-            max-width: 400px;
-            height: auto;
-        }
+    function getaSimbol(value) {
+      var valuee = document.getElementById('calculat');
+      valuee.value += value;
     }
 
-    .centered-image {
-    display: block; /* Задает блочное поведение */
-    margin: 0 auto; /* Центрирует изображение */
+
+    function clickButton() {
+      var valuee = document.getElementById('calculat');
+        valuee.value = eval(valuee.value);
     }
 
-    </style>
+
+  </script>
 
 </head>
 <body>
-   
-    <img class="centered-image" src="gooseimage.jpg" alt="Описание изображения">
 
-    <br>
-    <br>
-    <br>
-    <br>
+<div type="container">
 
-    
-    <table>
-        <thead class="container">
-            <tr> <td> &nbsp; </td> <td> 2017 </td> <td> 2018 </td> <td> 2019 </td> </tr>
-        </thead>
-        <tbody>
-            <tr> <td> ІТех </td> <td> 93 </td> <td> 97 </td> <td> 98 </td> </tr>
-            <tr> <td> КСх </td> <td> 91 </td> <td> 98 </td> <td> 97 </td> </tr>
-            <tr> <td> СПО </td> <td> 96 </td> <td> 94 </td> <td> 97 </td> </tr>
-        </tbody>
-    </table>
-    
+<input type="button" onclick="clickButton()" value="=" style="top: 620px; position: absolute;">
+<input type="text" name="bord" id="calculat" value="">
+
+<table>
+  <thead>
+    <tr>
+      <td><input type="button" onclick="getaSimbol('+')" value="+"></td>
+      <td><input type="button" onclick="getaSimbol('-')" value="-"></td>
+      <td><input type="button" onclick="getaSimbol('*')" value="*"></td>
+      <td><input type="button" onclick="getaSimbol('/')" value="/"></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="button" onclick="getaNumber('1')" value="1"></td>
+      <td><input type="button" onclick="getaNumber('2')" value="2"></td>
+      <td><input type="button" onclick="getaNumber('3')" value="3"></td>
+      <td><input type="button" onclick="getaNumber('4')" value="4"></td>
+    </tr>  
+    <tr>
+      <td><input type="button" onclick="getaNumber('5')" value="5"></td>
+      <td><input type="button" onclick="getaNumber('6')" value="6"></td>
+      <td><input type="button" onclick="getaNumber('7')" value="7"></td>
+      <td><input type="button" onclick="getaNumber('8')" value="8"></td>
+    </tr>
+    <tr>
+      <td><input type="button" onclick="getaNumber('9')" value="9"></td>
+      <td><input type="button" onclick="getaNumber('0')" value="0"></td>
+    </tr>
+</tbody>
+</table>
+</div>
 
 
 </body>
