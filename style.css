@@ -1,40 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    text-align: center;
+    min-height: 100vh;
+}
+
+
 
 table {
-    margin: 0 auto; /* Центруем таблицу по горизонтали */
-    border-collapse: collapse;
-    border-spacing: 0; /* убираем промежутки */
-    width: 40%; /* для удобства можно сделать таблицу на всю ширину */
+
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 500px;
+  height: 300px;
+
+  border-collapse: collapse; 
+
 }
 
-th, td {
-    border-top: 1px solid rgb(224, 27, 27); /* верхняя граница */
-    border-bottom: 1px solid rgb(224, 27, 27); /* нижняя граница */
+
+input[type="button"]{
+
+  width: 200px;
+  height: 100px;
+
 }
 
-tr:nth-last-child(2n+1){
-    background: #faf5ae;
+input[value]{
+
+  font-size: 80px;
+
 }
 
-tr:nth-child(2){
-    background: #e6e19f;
-}
+input[type="text"] {
 
-th:first-child, td:first-child {
-    border-left: 1px solid rgb(224, 27, 27); /* левая граница для первой колонки */
-}
+  position: absolute;
+  top: 450px;
+  left: 0px;
+  width: 600px;
+  height: 150px;
 
-th:last-child, td:last-child {
-    border-right: 1px solid rgb(224, 27, 27); /* правая граница для последней колонки */
-}
-
-.container tr {
-
-    background-color: #cf1c1c;
-    color: white; /* добавлено для контраста текста на тёмном фоне */
-    font-size: 20px;
-    
-}
-
-td:not(:first-child) {
-    text-align: center;
 }
