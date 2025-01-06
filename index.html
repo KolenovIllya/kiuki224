@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDZ_1</title>
+    <link rel="stylesheet" href="main.css">
+
+    <style>
+        .YourAnymeMiss{
+            display: none;
+        }
+        .YourAnymeHitt{
+            background-color: red;
+        }
+
+    </style>
+
+<script>
+
+    let lock = false;
+    let lock1 = 0;
+    let lockgame = false;
+
+    let step = 0;
+    let clickedCount = 0;
+    let clickedCountbot = 0;
+
+    function startProgress() {
+    if(!lock)
+    {
+        if(lock1 == 0)
+        {
+            alert("спершу обери свої фігури");
+        }
+        else
+        {
+            alert("зараз доступ до дошки заблоковано");
+        }
+
+    }
+    else
+    {
+
+        lock = false;
+        lockgame = true;
+        var table = document.getElementById("table");
+        var ships = [
+            {id: "1", size: 4},
+            {id: "2", size: 3},
+            {id: "3", size: 2}, 
+        ];
+
+        
+        for (var i = 0; i < table.rows.length; i++) {
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                var button = table.rows[i].cells[j].querySelector("button");
+                if (button) {
+                    button.id = "";
+                }
+            }
+        }
+
+        
+        function hasEnoughFreeCells(column, startRow, requiredCount, shipId) {
+            var freeCount = 0;
+            for (var i = startRow; i < table.rows.length; i++) {
+                var button = table.rows[i].cells[column].querySelector("button");
+                if (button && button.id === "") {  
+                    freeCount++;
+                } else if (button && button.id !== "" && button.id !== shipId) {
+                    return false;  
+                } else {
+                    freeCount = 0; 
+                }
+                if (freeCount == requiredCount) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function fillColumn(column, startRow, id, requiredCount) {
+            var freeCount = 0;
+            for (var i = startRow; i < table.rows.length; i++) {
+                var button = table.rows[i].cells[column].querySelector("button");
+                    button.id = id;
+                    freeCount++;
+                    if (freeCount >= requiredCount) {
+                        break;
+                    }
+            }
+        }
+
+        function placeCutter() {
+            var placed = 0;
+            var cutterId = 1; 
+
+            while (placed < 4) {
+                var rowToFill = Math.floor(Math.random() * table.rows.length);
+                var colToFill = Math.floor(Math.random() * table.rows[0].cells.length);
+                var button = table.rows[rowToFill].cells[colToFill].querySelector("button");
+
+                if (button && button.id === "") { 
+                    button.id = "4." + cutterId; 
+                    cutterId++;
+                    placed++;
+                }
+
+            }
+        }
+
+        ships.forEach(function(ship) {
+            let filled = false;
+            while (!filled) {
+                let rowToFill = Math.floor(Math.random() * table.rows.length); 
+                let columnToFill = Math.floor(Math.random() * table.rows[0].cells.length);
+                if (hasEnoughFreeCells(columnToFill, rowToFill, ship.size, ship.id)) {
+                    fillColumn(columnToFill, rowToFill, ship.id, ship.size);
+                    filled = true;
+                }
+            }
+        });
+
+        placeCutter();
+
+    }
+}
+
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const table = document.getElementById("mainT");
+
+    function fillColumn(columnIndex, startRowIndex, number, count) {
+    const rows = table.rows;
+    let filled = 0;
+
+    
+        for (let i = startRowIndex; i < rows.length; i++) {
+            const cell = rows[i].cells[columnIndex];
+            const button = cell.querySelector("button");
+
+            if (button && button.textContent !== "") {
+                alert("Треба обрати інше місце!"); 
+                return; 
+            }
+                button.id = number;
+                button.textContent = number;
+                filled++;
+
+                if (filled == count) {
+                step++;
+                break;
+            }
+
+        }
+
+
+    }
+
+    for (let i = 0; i < table.rows.length; i++) {
+        for (let j = 0; j < table.rows[i].cells.length; j++) {
+            const button = table.rows[i].cells[j].querySelector("button");
+
+            if (button) {
+                button.addEventListener("click", function () {
+                    if (step == 0) {
+                        fillColumn(j, i, 1, 4);
+                    } else if (step == 1) {
+                        fillColumn(j, i, 2, 3);
+                    } else if (step == 2) {
+                        fillColumn(j, i, 3, 2);
+                    } else if (step == 3) {
+                        fillColumn(j, i, 4.1, 1);
+                    } else if (step == 4) {
+                        fillColumn(j, i, 4.2, 1);
+                    }else if (step == 5) {
+                        fillColumn(j, i, 4.3, 1);
+                    } else if (step == 6) {
+                        fillColumn(j, i, 4.4, 1);
+                        lock = true;
+                        lock1++;
+                    }
+                    
+                });
+            }
+        }
+    }
+
+});
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+document.addEventListener("DOMContentLoaded", function () {
+
+const table = document.getElementById("table");
+const mainTable = document.getElementById("mainT");
+const validIds = ["1", "2", "3", "4.1", "4.2", "4.3", "4.4"];
+
+let clickedButtons = {
+    "1": false,
+    "2": false,
+    "3": false,
+    "4.1": false,
+    "4.2": false,
+    "4.3": false,
+    "4.4": false
+};
+
+
+function handleButtonClick(button) {
+    if (clickedButtons[button.id]) {
+        return;  
+    }
+
+    if (validIds.includes(button.id)) {
+
+    clickedButtons[button.id] = true;
+    clickedCount++;
+
+    if (clickedCount === validIds.length) {
+                alert("You win!");
+                lockgame = false;
+            }
+
+        randomizeMainT();
+
+        button.classList.add("YourAnymeHitt");
+        button.classList.remove("YourAnymeMiss");
+
+        if (button.id === "1") {
+            traverseDown(button, 4, "1");
+            traverseUp(button, 4, "1");
+        }
+        if (button.id === "2") {
+            traverseDown(button, 3, "2");
+            traverseUp(button, 3, "2");
+        }
+        if (button.id === "3") {
+            traverseDown(button, 2, "3");
+            traverseUp(button, 2, "3");
+        }
+
+    } else {
+
+        randomizeMainT();
+
+        button.classList.add("YourAnymeMiss");
+        button.classList.remove("YourAnymeHitt");
+    }
+}
+
+function randomizeMainT() {
+    const totalRows = mainTable.rows.length;
+    const totalCols = mainTable.rows[0].cells.length;
+    
+    let randomButton;
+    let randomCell;
+    let foundFreeCell = false;
+
+
+    while (!foundFreeCell) {
+        const randomRow = Math.floor(Math.random() * (totalRows));
+        const randomCol = Math.floor(Math.random() * totalCols);
+
+        randomCell = mainTable.rows[randomRow].cells[randomCol];
+        randomButton = randomCell.querySelector("button");
+
+ 
+        if (randomButton && !randomButton.classList.contains("YourAnymeHitt") && !randomButton.classList.contains("YourAnymeMiss")) {
+            foundFreeCell = true; 
+        }
+    }
+
+    if (randomButton && validIds.includes(randomButton.id)) {
+
+        randomButton.classList.add("YourAnymeHitt");
+        randomButton.classList.remove("YourAnymeMiss");
+
+        clickedCountbot++;
+
+        if (clickedCountbot === validIds.length) {
+                alert("bot win!");
+                lockgame = false;
+            }
+
+        if (randomButton.id === "1") {
+            traverseDownMain(randomButton, 4, "1");
+            traverseUpMain(randomButton, 4, "1");
+        }
+        if (randomButton.id === "2") {
+            traverseDownMain(randomButton, 3, "2");
+            traverseUpMain(randomButton, 3, "2");
+        }
+        if (randomButton.id === "3") {
+            traverseDownMain(randomButton, 2, "3");
+            traverseUpMain(randomButton, 2, "3");
+        }
+
+    } else{
+        randomButton.classList.add("YourAnymeMiss");
+        randomButton.classList.remove("YourAnymeHitt");
+    }
+}
+
+
+
+function traverse(startButton, steps, targetId, direction = 'down', tableRef = table) {
+    const cell = startButton.parentElement;
+    const row = cell.parentElement;
+    const columnIndex = Array.from(row.cells).indexOf(cell);
+    const startRowIndex = Array.from(tableRef.rows).indexOf(row);
+
+    for (let i = 1; i <= steps; i++) {
+        const nextRowIndex = direction === 'down' ? startRowIndex + i : startRowIndex - i;
+        if ((direction === 'down' && nextRowIndex < tableRef.rows.length) || (direction === 'up' && nextRowIndex >= 0)) {
+            const nextCell = tableRef.rows[nextRowIndex].cells[columnIndex];
+            const nextButton = nextCell.querySelector("button");
+
+            if (nextButton) {
+                if (nextButton.id === targetId) {
+                    nextButton.classList.add("YourAnymeHitt");
+                    nextButton.classList.remove("YourAnymeMiss");
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+}
+
+
+function traverseDown(startButton, steps, targetId) {
+    traverse(startButton, steps, targetId, 'down', table);
+}
+
+function traverseUp(startButton, steps, targetId) {
+    traverse(startButton, steps, targetId, 'up', table);
+}
+
+function traverseDownMain(MstartButton, Msteps, targetId) {
+    traverse(MstartButton, Msteps, targetId, 'down', mainTable);
+}
+
+function traverseUpMain(MstartButton, Msteps, targetId) {
+    traverse(MstartButton, Msteps, targetId, 'up', mainTable);
+}
+
+
+for (let i = 0; i < table.rows.length; i++) {
+    for (let j = 0; j < table.rows[i].cells.length; j++) {
+        const button = table.rows[i].cells[j].querySelector("button");
+        if (button) {
+            button.addEventListener("click", function () {
+                if (lockgame) {
+                    handleButtonClick(button);
+                }
+            });
+        }
+    }
+}
+
+});
+
+
+</script>
+</head>
+<body>
+
+    <div class="flexx">
+        <div>
+            <table class="table" id="table">
+                <tbody>
+                    <script>
+                        const rows = 10;
+                        const cols = 8;
+                        let tableHtml = '';
+                        for (let i = 0; i < rows; i++) {
+                            tableHtml += '<tr>';
+                            for (let j = 0; j < cols; j++) {
+                                if (i == 0) { 
+                                    tableHtml += `<td>${j + 1}</td>`;
+                                } else { 
+                                    tableHtml += '<td><button></button></td>';
+                                }
+                            }
+                            tableHtml += '</tr>';
+                        }
+                        document.getElementById('table').innerHTML = tableHtml;
+                    </script>
+                </tbody>
+            </table>
+            
+        </div>
+    
+        <div>
+            <table class="WordSS" id="WordSS">
+                <tbody>
+                    <script>
+                        let worss = ['a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k'];
+                        const Wrows = 10;
+                        const Wcols = 1;
+                        let WtableHtml = '';
+                        for (let i = 0; i < Wrows; i++) {
+                            WtableHtml += '<tr>';
+                            for (let j = 0; j < Wcols; j++) {
+                                WtableHtml += `<td>${worss[i]}</td>`;
+                            }
+                            WtableHtml += '</tr>';
+                        }
+                        document.getElementById('WordSS').innerHTML = WtableHtml;
+                    </script>
+                </tbody>
+            </table>
+        </div>
+    
+        <div>
+            <table class="mainT" id="mainT">
+                <tbody>
+                    <script>
+                        const Mrows = 10;
+                        const Mcols = 8;
+                        let MtableHtml = '';
+                        for (let i = 0; i < Mrows; i++) {
+                            MtableHtml += '<tr>';
+                            for (let j = 0; j < Mcols; j++) {
+                                if (i === 0) { 
+                                    MtableHtml += `<td>${j + 1}</td>`;
+                                } else {
+                                    MtableHtml += '<td><button></button></td>';
+                                }
+                            }
+                            MtableHtml += '</tr>';
+                        }
+                        document.getElementById('mainT').innerHTML = MtableHtml;
+                    </script>
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+
+<button onclick="startProgress()">Shifting Boats II</button>
+
+</body>
+</html>

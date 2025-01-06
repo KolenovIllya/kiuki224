@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="main2.css">
+    
+</head>
+<body>
+    <button id="mode-button">Switch to Bot Mode</button>
+    <div class="board"></div>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const board = document.querySelector(".board");
+            const modeButton = document.getElementById("mode-button");
+
+            let isBotMode = false;
+            let currentPlayer = "X";
+            const cells = Array(9).fill(null);
+
+            modeButton.addEventListener("click", () => {
+                isBotMode = !isBotMode;
+                modeButton.textContent = isBotMode ? "Switch to Player Mode" : "Switch to Bot Mode";
+                resetGame();
+            });
+
+            const createCell = (index) => {
+                const cell = document.createElement("div");
+                cell.classList.add("cell");
+                cell.addEventListener("click", () => handleCellClick(cell, index));
+                return cell;
+            };
+
+            const handleCellClick = (cell, index) => {
+                if (cell.textContent || checkWinner()) return;
+
+                cell.textContent = currentPlayer;
+                cells[index] = currentPlayer;
+
+                if (checkWinner()) {
+                    setTimeout(() => alert(`${currentPlayer} wins!`), 100);
+                } else if (cells.every(cell => cell)) {
+                    setTimeout(() => alert("It's a draw!"), 100);
+                } else {
+                    if (isBotMode && currentPlayer === "X") {
+                        currentPlayer = "O";
+                        botMove();
+                    } else {
+                        currentPlayer = currentPlayer === "X" ? "O" : "X";
+                    }
+                }
+            };
+
+            const botMove = () => {
+                const availableCells = cells.map((value, index) => (value === null ? index : null)).filter(index => index !== null);
+                if (availableCells.length > 0) {
+                    const botChoice = availableCells[Math.floor(Math.random() * availableCells.length)];
+                    const botCell = board.children[botChoice];
+                    botCell.textContent = currentPlayer;
+                    cells[botChoice] = currentPlayer;
+
+                    if (checkWinner()) {
+                        setTimeout(() => alert(`${currentPlayer} wins!`), 100);
+                    } else if (cells.every(cell => cell)) {
+                        setTimeout(() => alert("It's a draw!"), 100);
+                    } else {
+                        currentPlayer = "X";
+                    }
+                }
+            };
+
+            const checkWinner = () => {
+                const winningCombinations = [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                    [0, 4, 8], [2, 4, 6]
+                ];
+
+                return winningCombinations.some(combination =>
+                    combination.every(index => cells[index] === currentPlayer)
+                );
+            };
+
+            const resetGame = () => {
+                cells.fill(null);
+                currentPlayer = "X";
+                Array.from(board.children).forEach(cell => (cell.textContent = ""));
+            };
+
+            for (let i = 0; i < 9; i++) {
+                board.appendChild(createCell(i));
+            }
+        });
+        
+    </script>
+</body>
+
+</html>
